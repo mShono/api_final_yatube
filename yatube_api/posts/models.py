@@ -59,3 +59,23 @@ class Comment(models.Model):
         default_related_name = 'comments'
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='follower',
+        verbose_name='Подписчик',
+    )
+    following = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='following',
+        verbose_name='Блогер',
+    )
+
+    class Meta:
+        default_related_name = 'subscriptions'
+        verbose_name = 'подписка'
+        verbose_name_plural = 'Подписки'
