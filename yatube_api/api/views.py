@@ -1,10 +1,10 @@
-from posts.models import Comment, Group, Post
+from posts.models import Comment, Group, Post, Follow
 from rest_framework import mixins, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 
 from .permissions import IsOwnerOrReadOnly
-from .serializers import CommentSerializer, GroupSerializer, PostSerializer
+from .serializers import CommentSerializer, GroupSerializer, PostSerializer, FollowSerializer
 
 
 class GroupViewSet(
@@ -49,3 +49,11 @@ class CommentViewSet(viewsets.ModelViewSet):
             author=self.request.user,
             post=Post(id=self.kwargs.get("post_id"))
         )
+
+
+class FollowViewSet(
+    mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet
+):
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
+    permission_classes = [IsAuthenticated,]
