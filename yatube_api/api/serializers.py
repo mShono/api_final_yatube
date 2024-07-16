@@ -18,7 +18,6 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('id', 'text', 'author', 'image', 'pub_date', 'group')
         model = Post
-        # read_only_fields = ('group',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -39,6 +38,12 @@ class FollowSerializer(serializers.ModelSerializer):
         slug_field='username',
         queryset=User.objects.all(),
     )
+
+    def create(self, validated_data):
+        if validated_data['user'] == validated_data['following']:
+            raise serializers.ValidationError(
+                'Вы не можете подписаться на самого себя')
+        return Follow.objects.create(**validated_data)
 
     class Meta:
         fields = ('user', 'following')
