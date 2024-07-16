@@ -1,10 +1,12 @@
-from posts.models import Comment, Group, Post, Follow
-from rest_framework import mixins, viewsets, filters
+from rest_framework import filters, mixins, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 
+from posts.models import Comment, Follow, Group, Post
+
 from .permissions import IsOwnerOrReadOnly
-from .serializers import CommentSerializer, GroupSerializer, PostSerializer, FollowSerializer
+from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
+                          PostSerializer)
 
 
 class GroupViewSet(
