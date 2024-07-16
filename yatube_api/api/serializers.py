@@ -38,11 +38,11 @@ class FollowSerializer(serializers.ModelSerializer):
         queryset=User.objects.all(),
     )
 
-    def create(self, validated_data):
-        if validated_data['user'] == validated_data['following']:
+    def validate(self, data):
+        if self.context['request'].user == data['following']:
             raise serializers.ValidationError(
                 'Вы не можете подписаться на самого себя')
-        return Follow.objects.create(**validated_data)
+        return super().validate(data)
 
     class Meta:
         fields = ('user', 'following')
