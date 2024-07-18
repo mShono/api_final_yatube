@@ -14,6 +14,9 @@ class Group(models.Model):
         verbose_name = 'группа'
         verbose_name_plural = 'Группы'
 
+    def __str__(self):
+        return self.title[:settings.STR_FIELD_LENGHT]
+
 
 class Post(models.Model):
     text = models.TextField('Текст публикации')
@@ -60,6 +63,9 @@ class Comment(models.Model):
         verbose_name = 'комментарий'
         verbose_name_plural = 'Комментарии'
 
+    def __str__(self):
+        return self.text[:settings.STR_FIELD_LENGHT]
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -85,3 +91,6 @@ class Follow(models.Model):
         default_related_name = 'subscriptions'
         verbose_name = 'подписка'
         verbose_name_plural = 'Подписки'
+
+    def __str__(self):
+        return self.following[:settings.STR_FIELD_LENGHT]
